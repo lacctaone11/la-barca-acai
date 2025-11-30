@@ -1,0 +1,28 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Cache
+cache/
+tmp/
+
+# Ambiente local
+.env.local
+.env.development
+
+# Node (se usar)
+node_modules/
+
+# Arquivos temporários
+*.tmp
+*.temp

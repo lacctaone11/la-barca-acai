@@ -1,0 +1,6 @@
+# Ignorar dados sensíveis
+data/
+*.log
+*.json
+!pix_config.json.example
+

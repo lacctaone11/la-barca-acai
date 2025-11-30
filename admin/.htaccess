@@ -1,0 +1,16 @@
+# Proteção da pasta admin
+# Desabilita listagem de diretórios
+Options -Indexes
+
+# Protege arquivos sensíveis
+<FilesMatch "\.(json|log|txt)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permite acesso apenas aos arquivos PHP necessários
+<FilesMatch "^(login|dashboard|logout|auth_check|jwt_helper)\.php$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
