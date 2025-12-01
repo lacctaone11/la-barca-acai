@@ -185,7 +185,7 @@ $totalCarrinho = acai_cart_total($cart);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="Ng8LzSxnDpeIq5x1nCgRPwEdxj9ujdHL3YMckxIo">
-    <title>Pedido Confirmado! | La Barca Açaí</title>
+    <title>Pedido Confirmado! | Tropical Açaí</title>
     <meta name="description" content="Seu pedido foi confirmado com sucesso!">
     <meta name="theme-color" content="#64268c">
     <link rel="stylesheet"
@@ -248,7 +248,7 @@ $totalCarrinho = acai_cart_total($cart);
     <div class="success-container">
         <div class="header-success">
             <div class="logo">
-                <img src="public/images/logo_acai.webp" alt="La Barca Açaí" width="200" height="200" loading="lazy">
+                <img src="public/images/logo_acai.webp" alt="Tropical Açaí" width="200" height="200" loading="lazy">
             </div>
            
         </div>

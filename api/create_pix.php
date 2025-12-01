@@ -61,7 +61,7 @@ foreach ($cart as $item) {
 
 if (empty($items)) {
     $items[] = [
-        'title' => 'Pedido La Barca Açaí',
+        'title' => 'Pedido Tropical Açaí',
         'quantity' => 1,
         'unitPrice' => $amountInCents,
         'tangible' => true,

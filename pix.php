@@ -16,8 +16,8 @@ $totalCarrinho = acai_cart_total($cart);
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="Ng8LzSxnDpeIq5x1nCgRPwEdxj9ujdHL3YMckxIo">
-        <title>La Barca Açaí | Faça seu pedido!</title>
-        <meta name="description" content="Promoções La Barca Açaí, confira nossa promoções e faça seu pedido agora!">
+        <title>Tropical Açaí | Faça seu pedido!</title>
+        <meta name="description" content="Promoções Tropical Açaí, confira nossa promoções e faça seu pedido agora!">
         <meta name="theme-color" content="#64268c">
         <meta name="apple-mobile-web-app-status-bar-style" content="#64268c">
         <meta name="msapplication-navbutton-color" content="#64268c">
@@ -65,7 +65,7 @@ $totalCarrinho = acai_cart_total($cart);
             <div class="dados-pix">
                 <div class="topo-pix">
                     <div class="logo">
-                        <img src="public/images/logo_acai.webp" alt="La Barca Açaí">
+                        <img src="public/images/logo_acai.webp" alt="Tropical Açaí">
                     </div>
                     <div class="icone-pix">
                         <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
