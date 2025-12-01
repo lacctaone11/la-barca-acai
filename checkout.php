@@ -7,6 +7,97 @@ $totalCarrinho = acai_cart_total($cart);
     html, body {
         background-color: #f3f5f7 !important;
     }
+
+    /* Header Checkout */
+    .checkout-header {
+        background: linear-gradient(135deg, var(--primaria) 0%, #4a1d6b 100%);
+        padding: 12px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .checkout-header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .checkout-header .btn-voltar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .checkout-header .btn-voltar:hover {
+        background: rgba(255,255,255,0.25);
+        transform: translateX(-3px);
+    }
+
+    .checkout-header .btn-voltar i {
+        font-size: 16px;
+    }
+
+    .checkout-header .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .checkout-header .header-logo img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .checkout-header .header-logo span {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .checkout-header .header-seguro {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: rgba(255,255,255,0.9);
+        font-size: 12px;
+    }
+
+    .checkout-header .header-seguro i {
+        color: #4caf50;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .checkout-header .header-logo span {
+            display: none;
+        }
+
+        .checkout-header .btn-voltar span {
+            display: none;
+        }
+
+        .checkout-header .btn-voltar {
+            padding: 10px 12px;
+            border-radius: 50%;
+        }
+
+        .checkout-header .header-seguro span {
+            display: none;
+        }
+    }
 </style>
 <!DOCTYPE html>
 <html lang="pt-br" translate="no">
@@ -62,6 +153,25 @@ $totalCarrinho = acai_cart_total($cart);
                 <div class="loading__circle-spinner"></div>
             </div>
         </div>
+
+        <!-- Header Checkout -->
+        <header class="checkout-header">
+            <div class="container">
+                <a href="cart.php" class="btn-voltar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Voltar</span>
+                </a>
+                <div class="header-logo">
+                    <img src="public/images/logo_acai.webp" alt="Tropical Açaí">
+                    <span>Tropical Açaí</span>
+                </div>
+                <div class="header-seguro">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Compra Segura</span>
+                </div>
+            </div>
+        </header>
+
         <div>
             <div class="faixa-topo">
                 <div class="container">
