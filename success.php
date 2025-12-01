@@ -201,6 +201,7 @@ $totalCarrinho = acai_cart_total($cart);
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'AW-17761107013');
+        gtag('config', 'AW-17761923751');
     </script>
 
     <link rel="preload" href="public/css/bootstrap.min.css" as="style">
@@ -226,8 +227,17 @@ $totalCarrinho = acai_cart_total($cart);
 
         // Disparar evento de conversão apenas se houver valor
         if (orderValue > 0) {
+            // Conversão para o primeiro pixel
             gtag('event', 'conversion', {
                 'send_to': 'AW-17761107013/DN4yCOTrpMobEMX4k5VC',
+                'value': orderValue,
+                'currency': 'BRL',
+                'transaction_id': transactionId
+            });
+
+            // Conversão para o segundo pixel
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17761923751/ZnYBCKDPocobEKflxZVC',
                 'value': orderValue,
                 'currency': 'BRL',
                 'transaction_id': transactionId

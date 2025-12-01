@@ -43,6 +43,7 @@ foreach ($cart as $cartItem) {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'AW-17761107013');
+            gtag('config', 'AW-17761923751');
         </script>
 
         <link rel="preload" href="public/css/bootstrap.min.css" as="style">
