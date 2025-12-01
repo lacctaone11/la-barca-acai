@@ -5,7 +5,223 @@ require_once __DIR__ . '/item/cart_helpers.php';
 $cart = acai_get_cart();
 $totalCarrinho = acai_cart_total($cart);
 ?>
-<style>html, body{background-color:var(--primaria) !important;}</style>
+<style>
+html, body{background-color:var(--primaria) !important;}
+
+/* ===== OTIMIZAÇÃO MOBILE PIX ===== */
+@media (max-width: 768px) {
+    section#pix {
+        padding: 10px 0 !important;
+    }
+
+    section#pix .dados-pix {
+        border-radius: 12px;
+    }
+
+    /* Topo compacto */
+    section#pix .dados-pix .topo-pix {
+        padding: 12px 12px 8px !important;
+    }
+
+    section#pix .dados-pix .topo-pix .logo {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    section#pix .dados-pix .icone-pix svg {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    /* Divisor menor */
+    section#pix .dados-pix .divisor {
+        transform: scale(0.7);
+        margin: -8px 0;
+    }
+
+    /* Dados compactos */
+    section#pix .dados-pix .dados {
+        padding: 8px 12px 5px !important;
+    }
+
+    section#pix .dados-pix .dados .title-method {
+        margin: 0 0 5px !important;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    section#pix .dados-pix .dados .title-method h2 {
+        font-size: 14px !important;
+    }
+
+    section#pix .dados-pix .dados .title-method .infos-date {
+        font-size: 11px !important;
+        flex-direction: row !important;
+        gap: 8px;
+    }
+
+    section#pix .dados-pix .dados h3 {
+        font-size: 14px !important;
+        margin-bottom: 5px;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa {
+        flex-direction: row !important;
+        gap: 10px;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa .pessoa,
+    section#pix .dados-pix .dados .dados-pessoa .endereco {
+        width: 50% !important;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa .pessoa span,
+    section#pix .dados-pix .dados .dados-pessoa .endereco span {
+        font-size: 11px !important;
+        line-height: 16px !important;
+        margin: 0 0 2px !important;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa .pessoa span i,
+    section#pix .dados-pix .dados .dados-pessoa .endereco span i {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 12px !important;
+    }
+
+    /* Área QR Code otimizada */
+    section#pix .dados-pix .area-qrcode {
+        padding: 8px 12px 15px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .time-price {
+        margin: 0 0 8px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .time-price .price-pix span,
+    section#pix .dados-pix .area-qrcode .time-price .expira-pix span {
+        font-size: 11px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .time-price .price-pix strong {
+        font-size: 20px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .time-price .expira-pix .time-pix .minutos,
+    section#pix .dados-pix .area-qrcode .time-price .expira-pix .time-pix .segundos {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 13px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .time-price .expira-pix .time-pix i {
+        font-size: 16px !important;
+        margin-right: 5px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode h3 {
+        font-size: 13px !important;
+        margin: 0 0 10px !important;
+    }
+
+    /* QR Code e botão em linha */
+    section#pix .dados-pix .area-qrcode .qrcode {
+        max-width: 120px !important;
+        padding: 5px !important;
+        margin: 0 auto 10px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .qrcode img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    input#codePix {
+        height: 36px !important;
+        font-size: 10px !important;
+        padding: 5px 10px !important;
+        margin-bottom: 8px !important;
+    }
+
+    button#copy_pix {
+        height: 40px !important;
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+    }
+
+    button#copy_pix img {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    /* Passos ultra compactos */
+    section#pix .dados-pix .area-qrcode > h3:last-of-type {
+        font-size: 12px !important;
+        margin: 8px 0 !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .passos {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 8px !important;
+        margin-top: 8px;
+    }
+
+    section#pix .dados-pix .area-qrcode .passos .passo {
+        flex: 1 !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-bottom: 0 !important;
+        text-align: center;
+    }
+
+    section#pix .dados-pix .area-qrcode .passos .passo strong {
+        font-size: 9px !important;
+        padding: 3px 6px !important;
+        margin-right: 0 !important;
+        margin-bottom: 4px !important;
+        white-space: nowrap;
+    }
+
+    section#pix .dados-pix .area-qrcode .passos .passo span {
+        font-size: 10px !important;
+        line-height: 13px !important;
+        padding-top: 0 !important;
+        max-width: none !important;
+    }
+}
+
+/* Telas muito pequenas (iPhone SE, etc) */
+@media (max-width: 375px) {
+    section#pix .dados-pix .topo-pix .logo {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    section#pix .dados-pix .icone-pix svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .qrcode {
+        max-width: 100px !important;
+    }
+
+    section#pix .dados-pix .area-qrcode .passos .passo span {
+        font-size: 9px !important;
+        line-height: 12px !important;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa {
+        flex-direction: column !important;
+    }
+
+    section#pix .dados-pix .dados .dados-pessoa .pessoa,
+    section#pix .dados-pix .dados .dados-pessoa .endereco {
+        width: 100% !important;
+    }
+}
+</style>
 <!DOCTYPE html>
 <html lang="pt-br" translate="no">
     <head>
