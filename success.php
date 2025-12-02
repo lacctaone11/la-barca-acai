@@ -47,22 +47,111 @@ $totalCarrinho = acai_cart_total($cart);
     }
     .orderBup {
         background: white;
-        padding: 10px;
-       
+        padding: 20px;
+        border-radius: 0 0 10px 10px;
+    }
+    /* Upsell Item List */
+    .upsell-item-list {
+        margin: 15px 0;
+    }
+    .upsell-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 2px solid #e9ecef;
+        position: relative;
+    }
+    .upsell-item-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        margin-right: 12px;
+    }
+    .upsell-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .upsell-item-info {
+        flex: 1;
+    }
+    .upsell-item-info h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #2b2b2b;
+        margin: 0 0 4px;
+    }
+    .upsell-item-desc {
+        font-size: 12px;
+        color: #666;
+        display: block;
+        margin-bottom: 6px;
+    }
+    .upsell-item-prices {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .upsell-item-prices .price-old {
+        font-size: 12px;
+        color: #999;
+        text-decoration: line-through;
+    }
+    .upsell-item-prices .price-promo {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--primaria);
+    }
+    .upsell-check {
+        color: #28a745;
+        font-size: 22px;
+        margin-left: 10px;
+    }
+    /* Upsell Summary */
+    .upsell-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+    .upsell-economy {
+        text-align: center;
+    }
+    .upsell-economy span {
+        display: block;
+        font-size: 12px;
+        color: #666;
+    }
+    .upsell-economy strong {
+        font-size: 18px;
+        color: #dc3545;
     }
     .upsell-total {
-    background: #438f70;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    text-align
-: center;
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: 700;
-}
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .upsell-total span {
+        display: block;
+        font-size: 11px;
+        opacity: 0.9;
+    }
+    .upsell-total strong {
+        font-size: 20px;
+        font-weight: 700;
+    }
     .btn-comprar-upsell {
-        background: linear-gradient(135deg, #ca6e39 0%, #b85d2a 100%);
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
         color: white;
         border: none;
         padding: 18px 40px;
@@ -72,13 +161,13 @@ $totalCarrinho = acai_cart_total($cart);
         border-radius: 10px;
         cursor: pointer;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 15px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(202, 110, 57, 0.3);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     }
     .btn-comprar-upsell:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(202, 110, 57, 0.4);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
     }
     .btn-comprar-upsell:active {
         transform: translateY(0);
@@ -86,6 +175,16 @@ $totalCarrinho = acai_cart_total($cart);
     .btn-comprar-upsell:disabled {
         opacity: 0.6;
         cursor: not-allowed;
+    }
+    .upsell-info-text {
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+        margin: 12px 0 0;
+    }
+    .upsell-info-text i {
+        color: var(--primaria);
+        margin-right: 5px;
     }
     .header-success {
     text-align: center;
@@ -348,72 +447,75 @@ $totalCarrinho = acai_cart_total($cart);
 
         <div class="orderBup">
             <span class="title-orderBump">
-                <strong>Mega oferta</strong>
-                para você:
+                <strong>🎉 Oferta Exclusiva!</strong>
+                Leve os 3 por um preço especial:
             </span>
-            <input type="checkbox" name="orderBump_7" id="orderBump_7" value="7" class="extra-item d-none" autocomplete="off">
-            <label class="item-orderBup" for="orderBump_7">
-                <div class="ob-purchased">
-                    <span>Oferta adquirida</span>
-                    <img src="public/images/verified.svg" alt="Oferta Adiquirida">
+
+            <div class="upsell-item-list">
+                <div class="upsell-item">
+                    <div class="upsell-item-img">
+                        <img src="public/images/brownie_gelado.webp" alt="Brownie Gelado">
+                    </div>
+                    <div class="upsell-item-info">
+                        <h4>Brownie Gelado</h4>
+                        <span class="upsell-item-desc">Acompanhamento perfeito para seu açaí</span>
+                        <div class="upsell-item-prices">
+                            <span class="price-old">R$ 13,90</span>
+                            <span class="price-promo">R$ 6,90</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-circle-check upsell-check"></i>
                 </div>
-                <div class="trash">
-                    <img src="public/images/trash.svg" alt="Remover item">
+
+                <div class="upsell-item">
+                    <div class="upsell-item-img">
+                        <img src="public/images/textura.webp" alt="Açaí Turbo">
+                    </div>
+                    <div class="upsell-item-info">
+                        <h4>Açaí Turbo</h4>
+                        <span class="upsell-item-desc">+20% de volume e textura mais gelada</span>
+                        <div class="upsell-item-prices">
+                            <span class="price-old">R$ 11,90</span>
+                            <span class="price-promo">R$ 5,90</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-circle-check upsell-check"></i>
                 </div>
-                <div class="image">
-                    <img src="public/images/brownie_gelado.webp" alt="Brownie Gelado">
+
+                <div class="upsell-item">
+                    <div class="upsell-item-img">
+                        <img src="public/images/combo_chef.webp" alt="Combo do Chef">
+                    </div>
+                    <div class="upsell-item-info">
+                        <h4>Combo do Chef</h4>
+                        <span class="upsell-item-desc">Açaí + Brownie + Camada surpresa</span>
+                        <div class="upsell-item-prices">
+                            <span class="price-old">R$ 17,90</span>
+                            <span class="price-promo">R$ 8,90</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-circle-check upsell-check"></i>
                 </div>
-                <div class="dados">
-                    <h3>Brownie Gelado</h3>
-                    <span>Acompanhamento perfeito para seu açaí </span>
-                    
-                </div>
-            
-            </label>
-            <input type="checkbox" name="orderBump_8" id="orderBump_8" value="8" class="extra-item d-none" autocomplete="off">
-            <label class="item-orderBup" for="orderBump_8">
-                <div class="ob-purchased">
-                    <span>Oferta adquirida</span>
-                    <img src="public/images/verified.svg" alt="Oferta Adiquirida">
-                </div>
-                <div class="trash">
-                    <img src="public/images/trash.svg" alt="Remover item">
-                </div>
-                <div class="image">
-                    <img src="public/images/textura.webp" alt="Açaí Turbo">
-                </div>
-                <div class="dados">
-                    <h3>Açaí Turbo</h3>
-                    <span>+20% de volume e textura mais gelada</span>
-                   
-                </div>
-                
-            </label>
-            <input type="checkbox" name="orderBump_9" id="orderBump_9" value="9" class="extra-item d-none" autocomplete="off">
-            <label class="item-orderBup" for="orderBump_9">
-                <div class="ob-purchased">
-                    <span>Oferta adquirida</span>
-                    <img src="public/images/verified.svg" alt="Oferta Adiquirida">
-                </div>
-                <div class="trash">
-                    <img src="public/images/trash.svg" alt="Remover item">
-                </div>
-                <div class="image">
-                    <img src="public/images/combo_chef.webp" alt="Combo do Chef (Só Hoje)">
-                </div>
-                <div class="dados">
-                    <h3>Combo do Chef (Só Hoje)</h3>
-                    <span>Açaí + Brownie + Camada surpresa</span>
-                    
-                </div>
-              
-            </label>
-            <div class="upsell-total">
-                <span>Por apenas: <strong>R$ 10,90</strong></span>
             </div>
+
+            <div class="upsell-summary">
+                <div class="upsell-economy">
+                    <span>Economia de</span>
+                    <strong>R$ 32,80</strong>
+                </div>
+                <div class="upsell-total">
+                    <span>Total do combo:</span>
+                    <strong>R$ 10,90</strong>
+                </div>
+            </div>
+
             <button type="button" class="btn-comprar-upsell" id="btn-comprar-upsell">
-                <i class="fa-solid fa-shopping-cart"></i> Comprar Agora
+                <i class="fa-solid fa-bolt"></i> Aproveitar Oferta
             </button>
+
+            <p class="upsell-info-text">
+                <i class="fa-solid fa-truck-fast"></i> Entrega junto com seu pedido
+            </p>
         </div>
     </div>
 
@@ -466,8 +568,6 @@ $totalCarrinho = acai_cart_total($cart);
                 minute: '2-digit'
             });
             $('#order-date').text(dataFormatada);
-
-            $('.extra-item').prop('disabled', true);
 
             $('#btn-comprar-upsell').on('click', function() {
                 const btn = $(this);
