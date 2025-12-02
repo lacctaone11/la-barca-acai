@@ -681,6 +681,17 @@ height: 47px;
 div:where(.swal2-container) b{
 font-weight: 600 !important;
 }
+/* SweetAlert2 Error - texto visível */
+.swal2-popup.swal2-icon-error .swal2-html-container,
+.swal2-popup.swal2-icon-error .swal2-html-container ul,
+.swal2-popup.swal2-icon-error .swal2-html-container li {
+    color: #721c24 !important;
+}
+.swal2-popup.swal2-icon-warning .swal2-html-container,
+.swal2-popup.swal2-icon-warning .swal2-html-container ul,
+.swal2-popup.swal2-icon-warning .swal2-html-container li {
+    color: #856404 !important;
+}
 .topo-produto{
 padding: 15px 0;
 background-color: #fff;
