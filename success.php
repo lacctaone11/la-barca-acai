@@ -311,6 +311,7 @@ $totalCarrinho = acai_cart_total($cart);
         gtag('js', new Date());
         gtag('config', 'AW-17761107013');
         gtag('config', 'AW-17761923751');
+        gtag('config', 'AW-17761957026');
     </script>
 
     <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
@@ -354,6 +355,14 @@ $totalCarrinho = acai_cart_total($cart);
             // Conversão para o segundo pixel
             gtag('event', 'conversion', {
                 'send_to': 'AW-17761923751/ZnYBCKDPocobEKflxZVC',
+                'value': orderValue,
+                'currency': 'BRL',
+                'transaction_id': transactionId
+            });
+
+            // Conversão para o terceiro pixel
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17761957026/xBicCMOp9MobEKLpx5VC',
                 'value': orderValue,
                 'currency': 'BRL',
                 'transaction_id': transactionId
