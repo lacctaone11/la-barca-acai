@@ -529,48 +529,16 @@ $totalCarrinho = acai_cart_total($cart);
                                                 </div>
                                             </div>
 
-                                            <!-- CARTÃO DE CRÉDITO -->
-                                            <div id="credit_card_asset-box-credit" class="d-flex flex-col align-items-center rounded box-payment">
-                                                <div class="d-flex flex-row align-items-center payment-credit-card" id="credit-card-row" style="width:100%;cursor:pointer;">
+                                            <!-- CARTÃO DE CRÉDITO - DESABILITADO -->
+                                            <div id="credit_card_asset-box-credit" class="d-flex flex-col align-items-center rounded box-payment disabled-payment" style="opacity:0.5;pointer-events:none;cursor:not-allowed;">
+                                                <div class="d-flex flex-row align-items-center payment-credit-card" id="credit-card-row" style="width:100%;">
                                                     <span>
-                                                        <div id="credit_card_asset_radio" class="radios-payment-methods"></div>
+                                                        <div id="credit_card_asset_radio" class="radios-payment-methods" style="background:#ccc;"></div>
                                                     </span>
                                                     <span class="label-box-methods-payment" style="white-space:nowrap;">
                                                         <b>CARTÃO DE CRÉDITO</b>
                                                     </span>
-                                                    <span class="aviso-card d-none">Não disponível no momento!</span>
-                                                </div>
-                                                <div id="credit-card-form-container" class="d-none" style="width:100%;margin-top:20px;padding:20px;background:#f8f9fa;border-radius:8px;">
-                                                    <form id="credit-card-form">
-                                                        <div class="d-flex flex-col form-group" style="margin-bottom:15px;">
-                                                            <label for="cc-number" style="margin-bottom:5px;color:#2b2b2b;font-weight:500;">Número do Cartão</label>
-                                                            <input type="text" class="input-default" id="cc-number" placeholder="0000 0000 0000 0000" autocomplete="off" style="width:100%;">
-                                                        </div>
-                                                        <div class="d-flex flex-col form-group" style="margin-bottom:15px;">
-                                                            <label for="cc-name" style="margin-bottom:5px;color:#2b2b2b;font-weight:500;">Nome do Titular</label>
-                                                            <input type="text" class="input-default" id="cc-name" placeholder="Nome igual no cartão" autocomplete="off" style="width:100%;">
-                                                        </div>
-                                                        <div class="d-flex flex-col form-group" style="margin-bottom:15px;">
-                                                            <label for="cc-cpf" style="margin-bottom:5px;color:#2b2b2b;font-weight:500;">CPF do Titular</label>
-                                                            <input type="text" class="input-default" id="cc-cpf" placeholder="000.000.000-00" autocomplete="off" style="width:100%;">
-                                                        </div>
-                                                        <div style="display:flex;gap:10px;margin-bottom:15px;">
-                                                            <div class="d-flex flex-col form-group" style="flex:1;">
-                                                                <label for="cc-validade" style="margin-bottom:5px;color:#2b2b2b;font-weight:500;">Validade</label>
-                                                                <input type="text" class="input-default" id="cc-validade" placeholder="MM/AA" autocomplete="off" style="width:100%;">
-                                                            </div>
-                                                            <div class="d-flex flex-col form-group" style="flex:1;">
-                                                                <label for="cc-cvv" style="margin-bottom:5px;color:#2b2b2b;font-weight:500;">CVV</label>
-                                                                <input type="text" class="input-default" id="cc-cvv" placeholder="123" autocomplete="off" style="width:100%;">
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex flex-col w-100 form-group">
-                                                            <button type="button" class="btn-checkout" id="credit-card-pay-button" style="width:100%;">
-                                                                <b>PAGAR COM CARTÃO</b>
-                                                                <span>R$ <?php echo acai_format_money($totalCarrinho); ?></span>
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                    <span class="aviso-card" style="display:inline-block !important;margin-left:auto;font-size:11px;color:#dc3545;font-weight:600;">Desativado nesta promoção</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -657,24 +625,6 @@ $totalCarrinho = acai_cart_total($cart);
         <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script defer type="text/javascript" src="public/js/sweetalert.min.js"></script>
         <script defer type="text/javascript" src="public/js/select2.min.js"></script>
-        <style>
-            /* Estilos para validação do formulário de cartão */
-            #credit-card-form .input-default.is-valid {
-                border-color: #28a745 !important;
-                background-color: #f0fff4;
-            }
-            #credit-card-form .input-default.is-invalid {
-                border-color: #dc3545 !important;
-                background-color: #fff5f5;
-            }
-            #credit-card-form .input-default:focus.is-valid {
-                box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-            }
-            #credit-card-form .input-default:focus.is-invalid {
-                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-            }
-
-        </style>
         <script defer type="text/javascript" src="public/js/functions.js?v=<?php echo time(); ?>"></script>
         <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cb2a07379cd4eefbb95393e110dd461","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
         <script>
@@ -691,66 +641,13 @@ $totalCarrinho = acai_cart_total($cart);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // ========== ALTERNÂNCIA ENTRE PIX E CARTÃO ==========
+            // PIX é a única opção de pagamento nesta promoção
             const pixBox = document.getElementById('pix_hipercash-box-pix');
-            const cardBox = document.getElementById('credit_card_asset-box-credit');
-            const pixRow = document.getElementById('pix-row');
-            const cardRow = document.getElementById('credit-card-row');
-            const pixRadio = document.getElementById('pix_hipercash_radio');
-            const cardRadio = document.getElementById('credit_card_asset_radio');
             const pixContent = document.getElementById('container-payment-pix_hipercash');
-            const cardContent = document.getElementById('credit-card-form-container');
 
-            function selectPix() {
-                if (!pixBox || !cardBox) return;
-
-                // Ativar PIX
+            // Garantir que PIX está sempre visível
+            if (pixBox && pixContent) {
                 pixBox.classList.add('payment-method-is-selected');
-                pixRadio.classList.add('custom-radio-active');
-                pixContent.style.display = 'flex';
-                pixContent.classList.remove('d-none');
-
-                // Desativar Cartão
-                cardBox.classList.remove('payment-method-is-selected');
-                cardRadio.classList.remove('custom-radio-active');
-                cardContent.style.display = 'none';
-                cardContent.classList.add('d-none');
-            }
-
-            function selectCard() {
-                if (!pixBox || !cardBox) return;
-
-                // Ativar Cartão
-                cardBox.classList.add('payment-method-is-selected');
-                cardRadio.classList.add('custom-radio-active');
-                cardContent.style.display = 'block';
-                cardContent.classList.remove('d-none');
-
-                // Desativar PIX
-                pixBox.classList.remove('payment-method-is-selected');
-                pixRadio.classList.remove('custom-radio-active');
-                pixContent.style.display = 'none';
-                pixContent.classList.add('d-none');
-            }
-
-            // Event listeners para clique
-            if (pixRow) {
-                pixRow.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    selectPix();
-                });
-            }
-            if (cardRow) {
-                cardRow.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    selectCard();
-                });
-            }
-
-            // Estado inicial - PIX selecionado
-            if (pixBox && pixBox.classList.contains('payment-method-is-selected')) {
                 pixContent.style.display = 'flex';
                 pixContent.classList.remove('d-none');
             }
