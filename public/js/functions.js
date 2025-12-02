@@ -64,12 +64,13 @@ $(document).ready(function() {
         if (!Swal.isVisible()) {
             const Toast = Swal.mixin({
                 toast: true,
-                position: "bottom-end",
+                position: "top-end",
                 showConfirmButton: false,
-                timer: 6500,
+                timer: 5000,
                 timerProgressBar: true,
                 customClass: {
-                    title: 'toast-title'
+                    popup: 'toast-mini',
+                    title: 'toast-title-mini'
                 }
             });
             Toast.fire({
@@ -202,6 +203,8 @@ $(document).ready(function() {
             document.querySelectorAll("#localCidade").forEach(el => el.textContent = cidade);
             document.querySelectorAll("#localEstado").forEach(el => el.textContent = estado);
             document.querySelectorAll("#localDistancia").forEach(el => el.textContent = "1,6km de você");
+            // Atualiza a cidade nos reviews/depoimentos
+            document.querySelectorAll(".cidade-cliente").forEach(el => el.textContent = cidade);
             // Mostra a div de localização quando preenchida
             const localizacaoInfo = document.getElementById("localizacao-info");
             if (localizacaoInfo) {

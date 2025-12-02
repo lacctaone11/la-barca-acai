@@ -629,6 +629,26 @@ font-size: 22px;
 .delivery div:where(.swal2-container) h2:where(.swal2-title.toast-title){
 font-size: 16px;
 }
+/* Toast Mini - Menor e canto superior direito */
+.toast-mini {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    max-width: 280px !important;
+    min-width: auto !important;
+}
+.toast-mini .swal2-icon {
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 8px 0 0 !important;
+}
+.toast-mini .swal2-icon .swal2-icon-content {
+    font-size: 16px !important;
+}
+.toast-title-mini {
+    font-size: 13px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
 .delivery div:where(.swal2-container) div:where(.swal2-html-container){
 padding: 0 15px;
 font-size: 18px;
