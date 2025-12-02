@@ -23,6 +23,16 @@ foreach ($cart as $cartItem) {
         <meta name="theme-color" content="#64268c">
         <meta name="apple-mobile-web-app-status-bar-style" content="#64268c">
         <meta name="msapplication-navbutton-color" content="#64268c">
+
+        <!-- Microsoft Clarity -->
+        <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "ufa1audvwf");
+        </script>
+
         <!-- Font Awesome via CDN -->
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -46,15 +56,21 @@ foreach ($cart as $cartItem) {
             gtag('config', 'AW-17761923751');
         </script>
 
+        <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
+        <style>
+            body { opacity: 0; }
+            body.loaded { opacity: 1; transition: opacity 0.2s ease; }
+            .loading__component { opacity: 1 !important; }
+        </style>
         <link rel="preload" href="public/css/bootstrap.min.css" as="style">
         <link rel="preload" href="public/css/global.css" as="style">
         <link href="public/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'; document.body.classList.add('loaded');">
         <noscript>
             <link href="public/css/bootstrap.min.css" rel="stylesheet">
             <link href="public/css/global.css" rel="stylesheet">
+            <style>body { opacity: 1 !important; }</style>
         </noscript>
-      
     </head>
     <body class="delivery">
         <div class="loading__component">
@@ -64,11 +80,23 @@ foreach ($cart as $cartItem) {
             </div>
         </div>
 	    <div>
-                <section id="topo-details">
-        <div class="container">
-            <a class="voltar" href="index.php" title="Voltar"><i class="fa-solid fa-chevron-left"></i> VOLTAR</a>
-        </div>
-    </section>
+        <!-- Header Checkout -->
+        <header class="checkout-header static">
+            <div class="container">
+                <a href="index.php" class="btn-voltar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Voltar</span>
+                </a>
+                <div class="header-logo">
+                    <img src="public/images/logo_acai.webp" alt="Tropical Açaí">
+                    <span>Tropical Açaí</span>
+                </div>
+                <div class="header-seguro">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Compra Segura</span>
+                </div>
+            </div>
+        </header>
     <section id="carrinho">
         <div class="container">
             <div class="items-cart">
@@ -229,6 +257,54 @@ foreach ($cart as $cartItem) {
         <script defer type="text/javascript" src="public/js/sweetalert.min.js"></script>
         <script defer type="text/javascript" src="public/js/select2.min.js"></script>
         <script defer type="text/javascript" src="public/js/functions.js"></script>
+        <script>
+            // Carrossel de complementos - arrastar para navegar
+            document.addEventListener('DOMContentLoaded', function() {
+                const carousel = document.querySelector('.complementares');
+                if (!carousel) return;
+
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                carousel.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    carousel.classList.add('dragging');
+                    startX = e.pageX - carousel.offsetLeft;
+                    scrollLeft = carousel.scrollLeft;
+                });
+
+                carousel.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    carousel.classList.remove('dragging');
+                });
+
+                carousel.addEventListener('mouseup', () => {
+                    isDown = false;
+                    carousel.classList.remove('dragging');
+                });
+
+                carousel.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - carousel.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    carousel.scrollLeft = scrollLeft - walk;
+                });
+
+                // Touch events para mobile
+                carousel.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].pageX - carousel.offsetLeft;
+                    scrollLeft = carousel.scrollLeft;
+                }, { passive: true });
+
+                carousel.addEventListener('touchmove', (e) => {
+                    const x = e.touches[0].pageX - carousel.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    carousel.scrollLeft = scrollLeft - walk;
+                }, { passive: true });
+            });
+        </script>
             <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cb2a07379cd4eefbb95393e110dd461","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>

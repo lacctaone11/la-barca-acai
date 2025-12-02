@@ -214,13 +214,20 @@ $totalCarrinho = acai_cart_total($cart);
         gtag('config', 'AW-17761923751');
     </script>
 
+    <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
+    <style>
+        body { opacity: 0; }
+        body.loaded { opacity: 1; transition: opacity 0.2s ease; }
+        .loading__component { opacity: 1 !important; }
+    </style>
     <link rel="preload" href="public/css/bootstrap.min.css" as="style">
     <link rel="preload" href="public/css/global.css" as="style">
     <link href="public/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'; document.body.classList.add('loaded');">
     <noscript>
         <link href="public/css/bootstrap.min.css" rel="stylesheet">
         <link href="public/css/global.css" rel="stylesheet">
+        <style>body { opacity: 1 !important; }</style>
     </noscript>
 
     <!-- Event snippet for Compra conversion page -->

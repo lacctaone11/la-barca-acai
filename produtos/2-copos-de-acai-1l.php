@@ -45,15 +45,21 @@
         <link rel="icon" href="../public/images/favicon_acai.webp" sizes="192x192" />
         <link rel="apple-touch-icon" href="../public/images/favicon_acai.webp" />
         <meta name="msapplication-TileImage" content="../public/images/favicon_acai.webp" />
+        <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
+        <style>
+            body { opacity: 0; }
+            body.loaded { opacity: 1; transition: opacity 0.2s ease; }
+            .loading__component { opacity: 1 !important; }
+        </style>
         <link rel="preload" href="../public/css/bootstrap.min.css" as="style">
         <link rel="preload" href="../public/css/global.css" as="style">
         <link href="../public/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-        <link href="../public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="../public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'; document.body.classList.add('loaded');">
         <noscript>
             <link href="../public/css/bootstrap.min.css" rel="stylesheet">
             <link href="../public/css/global.css" rel="stylesheet">
+            <style>body { opacity: 1 !important; }</style>
         </noscript>
-       
     </head>
     <body class="delivery">
         <div class="loading__component">
@@ -63,11 +69,23 @@
             </div>
         </div>
 	    <div>
-            <section id="topo-details">
-    <div class="container">
-        <a class="voltar" href="../index.php" title="Voltar"><i class="fa-solid fa-chevron-left"></i> VOLTAR</a>
-    </div>
-</section>
+        <!-- Header Checkout -->
+        <header class="checkout-header static">
+            <div class="container">
+                <a href="../index.php" class="btn-voltar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Voltar</span>
+                </a>
+                <div class="header-logo">
+                    <img src="../public/images/logo_acai.webp" alt="Tropical Açaí">
+                    <span>Tropical Açaí</span>
+                </div>
+                <div class="header-seguro">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Compra Segura</span>
+                </div>
+            </div>
+        </header>
 <section id="produto">
     <div class="container item">
         <div class="topo-produto">

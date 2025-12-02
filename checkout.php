@@ -244,13 +244,20 @@ $totalCarrinho = acai_cart_total($cart);
         <link rel="icon" href="public/images/favicon_acai.webp" sizes="192x192"/>
         <link rel="apple-touch-icon" href="public/images/favicon_acai.webp"/>
         <meta name="msapplication-TileImage" content="public/images/favicon_acai.webp"/>
+        <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
+        <style>
+            body { opacity: 0; }
+            body.loaded { opacity: 1; transition: opacity 0.2s ease; }
+            .loading__component { opacity: 1 !important; }
+        </style>
         <link rel="preload" href="public/css/bootstrap.min.css" as="style">
         <link rel="preload" href="public/css/global.css" as="style">
         <link href="public/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'; document.body.classList.add('loaded');">
         <noscript>
             <link href="public/css/bootstrap.min.css" rel="stylesheet">
             <link href="public/css/global.css" rel="stylesheet">
+            <style>body { opacity: 1 !important; }</style>
         </noscript>
     </head>
     <body class="delivery">

@@ -43,13 +43,22 @@
         <link rel="icon" href="public/images/favicon_acai.webp" sizes="192x192" />
         <link rel="apple-touch-icon" href="public/images/favicon_acai.webp" />
         <meta name="msapplication-TileImage" content="public/images/favicon_acai.webp" />
+
+        <!-- CSS Crítico - Evita flash de conteúdo sem estilo -->
+        <style>
+            body { opacity: 0; }
+            body.loaded { opacity: 1; transition: opacity 0.2s ease; }
+            .loading__component { opacity: 1 !important; }
+        </style>
+
         <link rel="preload" href="public/css/bootstrap.min.css" as="style">
         <link rel="preload" href="public/css/global.css" as="style">
         <link href="public/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="public/css/global.css" rel="stylesheet" media="print" onload="this.media='all'; document.body.classList.add('loaded');">
         <noscript>
             <link href="public/css/bootstrap.min.css" rel="stylesheet">
             <link href="public/css/global.css" rel="stylesheet">
+            <style>body { opacity: 1 !important; }</style>
         </noscript>
        
     </head>
@@ -288,7 +297,7 @@
                         </div>
                         <div class="text">
                             <div class="name"><b>Carlos M.</b> • <span>5,0</span><div class="starts"> <i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i></div></div>
-                            <p>Chegou geladinho, bem embalado e do jeito que pedi.</p>
+                            <p>Chegou geladinho, bem embalado e do jeito que pedi. O melhor açaí de <span class="cidade-cliente">sua cidade</span>!</p>
                         </div>
                     </div>
                     <div class="review">
@@ -315,7 +324,7 @@
                         </div>
                         <div class="text">
                             <div class="name"><b>Fernanda R.</b> • <span>5,0</span><div class="starts"> <i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i></div></div>
-                            <p>Quando vi o preço achei q ia ser pequeno, mas me enganei! Vem bem servido e a qualidade é absurda.</p>
+                            <p>Vem bem servido e a qualidade é absurda. Recomendo demais aqui em <span class="cidade-cliente">sua cidade</span>!</p>
                         </div>
                     </div>
                     <div class="review">
@@ -333,7 +342,7 @@
                         </div>
                         <div class="text">
                             <div class="name"><b>Juliana C.</b> • <span>5,0</span><div class="starts"> <i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i></div></div>
-                            <p>Açaí cremoso, bem montado e chegou intacto. Parabéns a franquia.</p>
+                            <p>Açaí cremoso, bem montado e chegou intacto. Melhor delivery de <span class="cidade-cliente">sua cidade</span>, com certeza!</p>
                         </div>
                     </div>
                     <div class="review">
@@ -342,7 +351,7 @@
                         </div>
                         <div class="text">
                             <div class="name"><b>Rafael T.</b> • <span>5,0</span><div class="starts"> <i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i><i class="fa-solid fa-star-sharp"></i></div></div>
-                            <p>Bom, barato e entrega rápida. Não tem erro, semana que vem peço de novo</p>
+                            <p>Bom, barato e entrega rápida aqui em <span class="cidade-cliente">sua cidade</span>. Não tem erro!</p>
                         </div>
                     </div>
                     <div class="review">
@@ -435,8 +444,8 @@
 
         <script defer>
     document.addEventListener("DOMContentLoaded", function () {
+        // Dia da semana
         const spans = document.querySelectorAll(".dia-da-semana");
-
         const dias = [
             "Domingou",
             "Segundou",
@@ -446,12 +455,28 @@
             "Sextou",
             "Sabadou"
         ];
-
         const hoje = new Date().getDay();
-
         spans.forEach(span => {
             span.textContent = 'SÓ HOJE: ' + dias[hoje] + '🔥';
         });
+
+        // Atualizar cidade nas avaliações
+        const cidadeSpans = document.querySelectorAll(".cidade-cliente");
+        const dadosSalvos = localStorage.getItem('dadosPessoais');
+        let cidade = null;
+
+        if (dadosSalvos) {
+            try {
+                const dados = JSON.parse(dadosSalvos);
+                cidade = dados.cidade || null;
+            } catch (e) {}
+        }
+
+        if (cidade) {
+            cidadeSpans.forEach(span => {
+                span.textContent = cidade;
+            });
+        }
     });
 </script>
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cb2a07379cd4eefbb95393e110dd461","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
