@@ -75,7 +75,7 @@
             </div>
             <div class="details">
                 <h2 class="titulo-produto">2 Copos de Açaí 700ml Zero</h2>
-                <p class="descricao-produto">9 Complementos Grátis&lt;br&gt;Açaí cremoso zero açucar com até 9 complementos à sua escolha, do jeitinho que você quiser! 🍓🍍🍇</p>
+                <p class="descricao-produto">9 Complementos Grátis<br>Açaí cremoso zero açúcar com até 9 complementos à sua escolha, do jeitinho que você quiser! 🍓🍍🍇</p>
                                 <div class="produto-price d-flex align-items-center">
                     <span class="price">R$ 59,80</span>
                     <span class="price_promo">R$ 29,90</span>
