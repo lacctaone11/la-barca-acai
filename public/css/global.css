@@ -2593,9 +2593,9 @@ flex-direction: column;
 }
 .topo-produto .image-produto {
 width: 100%;
+max-width: 280px;
 height: auto;
-margin-bottom: 20px;
-margin-right: 0;
+margin: 0 auto 20px;
 }
 .topo-produto .image-produto img{
 object-fit: contain;
