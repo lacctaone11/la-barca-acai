@@ -438,6 +438,26 @@ html, body{background-color:var(--primaria) !important;}
         <script defer>
 $(document).ready(function() {
 
+    // Proteção contra chamadas duplicadas
+    var pixAlreadyCreating = false;
+    var pixAlreadyCreated = sessionStorage.getItem('pixTransactionCreated');
+    var lastPixTime = parseInt(sessionStorage.getItem('pixTransactionTime') || '0');
+    var now = Date.now();
+
+    // Se já criou um PIX nos últimos 30 segundos, não criar outro
+    if (pixAlreadyCreated && (now - lastPixTime) < 30000) {
+        console.log('⚠️ PIX já foi criado recentemente. Evitando duplicação.');
+        var existingTransactionId = sessionStorage.getItem('pixTransactionId');
+        if (existingTransactionId) {
+            console.log('🔄 Retomando verificação da transação existente:', existingTransactionId);
+            // Esconder loading e mostrar área PIX se já existe
+            $('#pix-loading-overlay').hide();
+            $('section#pix').show();
+            startPaymentStatusCheck(existingTransactionId);
+        }
+        return;
+    }
+
     var dadosPessoais = JSON.parse(localStorage.getItem("dadosPessoais")) || {};
     var dadosFrete = JSON.parse(localStorage.getItem("dadosFrete")) || {};
     var amount = parseFloat(localStorage.getItem('totalCarrinho') || 0);
@@ -465,8 +485,15 @@ $(document).ready(function() {
     $('.time-pix').html('<i class="fa-solid fa-spinner fa-spin"></i>');
 
     createPixTransaction();
-    
+
     async function createPixTransaction() {
+        // Proteção adicional dentro da função
+        if (pixAlreadyCreating) {
+            console.log('⚠️ Criação de PIX já em andamento. Ignorando chamada duplicada.');
+            return;
+        }
+        pixAlreadyCreating = true;
+
         try {
 
             console.log('=== DEBUG PIX ===');
@@ -532,6 +559,13 @@ $(document).ready(function() {
             const data = await response.json();
             
             if (data.success) {
+
+                // Salvar no sessionStorage para evitar duplicação
+                sessionStorage.setItem('pixTransactionCreated', 'true');
+                sessionStorage.setItem('pixTransactionTime', Date.now().toString());
+                sessionStorage.setItem('pixTransactionId', data.transactionId);
+                sessionStorage.setItem('pixQrCode', data.qrcode);
+                sessionStorage.setItem('pixAmount', data.amount.toString());
 
                 const qrcodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(data.qrcode)}&ecLevel=Q&margin=0&size=300`;
 

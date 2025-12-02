@@ -246,6 +246,13 @@ $totalCarrinho = acai_cart_total($cart);
             // Limpar para evitar conversão duplicada
             localStorage.removeItem('totalCarrinho');
         }
+
+        // Limpar dados de sessão do PIX para permitir novos pedidos
+        sessionStorage.removeItem('pixTransactionCreated');
+        sessionStorage.removeItem('pixTransactionTime');
+        sessionStorage.removeItem('pixTransactionId');
+        sessionStorage.removeItem('pixQrCode');
+        sessionStorage.removeItem('pixAmount');
     </script>
 </head>
 <body class="delivery">
