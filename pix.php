@@ -361,10 +361,6 @@ html, body{background-color:var(--primaria) !important;}
                     </div>
                     <h3 id="customer-name">-</h3>
                     <div class="dados-pessoa">
-                        <div class="pessoa">
-                            <span><i class="fa-regular fa-envelope"></i> <span id="customer-email">-</span></span>
-                            <span><i class="fa-regular fa-address-card"></i> <span id="customer-cpf">-</span></span>
-                        </div>
                         <div class="endereco">
                             <span><i class="fa-regular fa-location-dot"></i> <span id="address">-</span></span>
                         </div>
