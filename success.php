@@ -582,43 +582,47 @@ $totalCarrinho = acai_cart_total($cart);
                 const btn = $(this);
                 const originalText = btn.html();
 
+                console.log('🛒 Iniciando compra do upsell...');
+
                 $('.loading__circle').css('display', 'flex');
-                btn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Adicionando...');
+                btn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Processando...');
 
                 const productIds = [7, 8, 9];
                 let completed = 0;
                 let hasError = false;
 
-                productIds.forEach(function(productId, index) {
+                // Adicionar produtos sequencialmente para evitar problemas
+                function addProduct(index) {
+                    if (index >= productIds.length) {
+                        // Todos os produtos adicionados com sucesso
+                        console.log('✅ Todos os produtos adicionados! Redirecionando para PIX...');
+                        $('.loading__circle').css('display', 'none');
+                        localStorage.setItem('totalCarrinho', '10.90');
+                        window.location.href = 'pix.php';
+                        return;
+                    }
+
+                    const productId = productIds[index];
+                    console.log('➕ Adicionando produto ID:', productId);
+
                     $.ajax({
                         type: 'POST',
                         url: window.rotas.adicionarCarrinho,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
                         data: {
                             product_id: productId,
                             qtd: 1,
-                            observacoes: 'orderBump'
+                            observacoes: 'upsell'
                         },
                         success: function(response) {
-                            completed++;
-                            if (completed === productIds.length && !hasError) {
-
-                                $('.loading__circle').css('display', 'none');
-                                btn.prop('disabled', false).html(originalText);
-
-                                localStorage.setItem('totalCarrinho', '10.90');
-
-                                // Ir direto para o PIX - CPF e email são gerados automaticamente na API
-                                window.location.href = 'pix.php';
-                            }
+                            console.log('✅ Produto ' + productId + ' adicionado:', response);
+                            // Adicionar próximo produto
+                            addProduct(index + 1);
                         },
                         error: function(xhr, status, error) {
-                            hasError = true;
+                            console.error('❌ Erro ao adicionar produto ' + productId + ':', error);
                             $('.loading__circle').css('display', 'none');
                             btn.prop('disabled', false).html(originalText);
-                            
+
                             if (typeof Swal !== 'undefined') {
                                 Swal.fire({
                                     icon: 'error',
@@ -631,7 +635,10 @@ $totalCarrinho = acai_cart_total($cart);
                             }
                         }
                     });
-                });
+                }
+
+                // Iniciar adição sequencial
+                addProduct(0);
             });
         });
     </script>
