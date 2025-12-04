@@ -31,6 +31,21 @@ $dominios = [
         'nome_fantasia' => 'Tropical Açaí'
     ],
 
+    // Domínio 3: seuacessobr.sbs
+    'seuacessobr.sbs' => [
+        'nome_empresa' => 'ASSOCIACAO DOS DOCENTES DA UNIVERSIDADE DE CAXIAS DO SUL',
+        'cnpj' => '97.403.893/0001-58',
+        'endereco' => 'AV FRANCISCO GETULIO VARGAS, 1130 - BL I Sala 118',
+        'bairro' => 'Petrópolis',
+        'cidade' => 'Caxias do Sul',
+        'estado' => 'RS',
+        'cep' => '95070-560',
+        'telefone' => '(54) 98117-8024',
+        'telefone_link' => '5554981178024',
+        'email' => 'team949@agencebcbg.com',
+        'nome_fantasia' => 'Tropical Açaí'
+    ],
+
     // Localhost (para testes - usa dados do primeiro domínio)
     'localhost' => [
         'nome_empresa' => 'GUIA DE JOINVILLE LTDA',
