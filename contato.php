@@ -23,7 +23,7 @@ $empresa = [
     <link rel="shortcut icon" href="public/images/favicon_acai.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="public/css/global.css" rel="stylesheet">
+    <link href="public/css/global.css?v=<?php echo time(); ?>" rel="stylesheet">
     <style>
         .contact-container {
             max-width: 800px;
