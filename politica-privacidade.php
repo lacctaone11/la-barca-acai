@@ -1,10 +1,11 @@
+<?php include 'includes/config_empresa.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidade | Tropical Açaí</title>
-    <meta name="description" content="Política de Privacidade do Tropical Açaí Delivery">
+    <title>Política de Privacidade | <?php echo $empresa['nome_fantasia']; ?></title>
+    <meta name="description" content="Política de Privacidade - <?php echo $empresa['nome_empresa']; ?>">
     <link rel="shortcut icon" href="public/images/favicon_acai.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +16,6 @@
             margin: 0 auto;
             padding: 20px;
             background: #fff;
-            min-height: 100vh;
         }
         .policy-header {
             text-align: center;
@@ -75,13 +75,13 @@
         <a href="index.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
 
         <div class="policy-header">
-            <img src="public/images/logo_acai.webp" alt="Tropical Açaí">
+            <img src="public/images/logo_acai.webp" alt="<?php echo $empresa['nome_fantasia']; ?>">
             <h1>Política de Privacidade</h1>
         </div>
 
         <div class="policy-content">
             <h2>1. Informações Gerais</h2>
-            <p>A presente Política de Privacidade contém informações sobre coleta, uso, armazenamento, tratamento e proteção dos dados pessoais dos usuários do site Tropical Açaí, com a finalidade de demonstrar absoluta transparência quanto ao assunto e esclarecer a todos interessados sobre os tipos de dados que são coletados.</p>
+            <p>A presente Política de Privacidade contém informações sobre coleta, uso, armazenamento, tratamento e proteção dos dados pessoais dos usuários do site <strong><?php echo $empresa['nome_fantasia']; ?></strong>, operado por <strong><?php echo $empresa['nome_empresa']; ?></strong>, inscrita no CNPJ sob nº <strong><?php echo $empresa['cnpj']; ?></strong>, com sede em <?php echo $empresa['endereco']; ?>, <?php echo $empresa['bairro']; ?>, <?php echo $empresa['cidade']; ?>/<?php echo $empresa['estado']; ?>, CEP <?php echo $empresa['cep']; ?>.</p>
 
             <h2>2. Dados Coletados</h2>
             <p>Os dados pessoais coletados são:</p>
@@ -135,8 +135,9 @@
             <h2>9. Contato</h2>
             <p>Para exercer seus direitos ou esclarecer dúvidas sobre esta política, entre em contato:</p>
             <ul>
-                <li><strong>E-mail:</strong> contato@tropicalacai.com.br</li>
-                <li><strong>WhatsApp:</strong> (11) 99999-9999</li>
+                <li><strong>E-mail:</strong> <?php echo $empresa['email']; ?></li>
+                <li><strong>Telefone:</strong> <?php echo $empresa['telefone']; ?></li>
+                <li><strong>Endereço:</strong> <?php echo $empresa['endereco']; ?>, <?php echo $empresa['bairro']; ?>, <?php echo $empresa['cidade']; ?>/<?php echo $empresa['estado']; ?></li>
             </ul>
 
             <h2>10. Alterações</h2>

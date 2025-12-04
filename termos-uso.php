@@ -1,10 +1,11 @@
+<?php include 'includes/config_empresa.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termos de Uso | Tropical Açaí</title>
-    <meta name="description" content="Termos de Uso do Tropical Açaí Delivery">
+    <title>Termos de Uso | <?php echo $empresa['nome_fantasia']; ?></title>
+    <meta name="description" content="Termos de Uso - <?php echo $empresa['nome_empresa']; ?>">
     <link rel="shortcut icon" href="public/images/favicon_acai.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +16,6 @@
             margin: 0 auto;
             padding: 20px;
             background: #fff;
-            min-height: 100vh;
         }
         .policy-header {
             text-align: center;
@@ -75,16 +75,16 @@
         <a href="index.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
 
         <div class="policy-header">
-            <img src="public/images/logo_acai.webp" alt="Tropical Açaí">
+            <img src="public/images/logo_acai.webp" alt="<?php echo $empresa['nome_fantasia']; ?>">
             <h1>Termos de Uso</h1>
         </div>
 
         <div class="policy-content">
             <h2>1. Aceitação dos Termos</h2>
-            <p>Ao acessar e utilizar o site Tropical Açaí, você concorda com estes Termos de Uso. Se não concordar com alguma condição, por favor, não utilize nossos serviços.</p>
+            <p>Ao acessar e utilizar o site <?php echo $empresa['nome_fantasia']; ?>, operado por <?php echo $empresa['nome_empresa']; ?>, CNPJ <?php echo $empresa['cnpj']; ?>, você concorda com estes Termos de Uso. Se não concordar com alguma condição, por favor, não utilize nossos serviços.</p>
 
             <h2>2. Descrição do Serviço</h2>
-            <p>O Tropical Açaí é um serviço de delivery de açaí e produtos relacionados. Através do nosso site, você pode:</p>
+            <p>O <?php echo $empresa['nome_fantasia']; ?> é um serviço de delivery de açaí e produtos relacionados. Através do nosso site, você pode:</p>
             <ul>
                 <li>Visualizar nosso cardápio e promoções</li>
                 <li>Realizar pedidos online</li>
@@ -135,10 +135,10 @@
             </ul>
 
             <h2>8. Propriedade Intelectual</h2>
-            <p>Todo o conteúdo do site (imagens, textos, logos, design) é de propriedade do Tropical Açaí e está protegido por leis de direitos autorais. É proibida a reprodução sem autorização.</p>
+            <p>Todo o conteúdo do site (imagens, textos, logos, design) é de propriedade de <?php echo $empresa['nome_empresa']; ?> e está protegido por leis de direitos autorais. É proibida a reprodução sem autorização.</p>
 
             <h2>9. Limitação de Responsabilidade</h2>
-            <p>O Tropical Açaí não se responsabiliza por:</p>
+            <p><?php echo $empresa['nome_fantasia']; ?> não se responsabiliza por:</p>
             <ul>
                 <li>Atrasos causados por fatores externos (trânsito, clima, etc.)</li>
                 <li>Informações incorretas fornecidas pelo cliente</li>
@@ -149,13 +149,13 @@
             <p>Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entram em vigor imediatamente após a publicação no site.</p>
 
             <h2>11. Foro</h2>
-            <p>Fica eleito o foro da comarca de São Paulo/SP para dirimir quaisquer questões oriundas destes termos.</p>
+            <p>Fica eleito o foro da comarca de <?php echo $empresa['cidade']; ?>/<?php echo $empresa['estado']; ?> para dirimir quaisquer questões oriundas destes termos.</p>
 
             <h2>12. Contato</h2>
             <p>Para dúvidas sobre estes termos:</p>
             <ul>
-                <li><strong>E-mail:</strong> contato@tropicalacai.com.br</li>
-                <li><strong>WhatsApp:</strong> (11) 99999-9999</li>
+                <li><strong>E-mail:</strong> <?php echo $empresa['email']; ?></li>
+                <li><strong>Telefone:</strong> <?php echo $empresa['telefone']; ?></li>
             </ul>
 
             <p class="last-update">Última atualização: <?php echo date('d/m/Y'); ?></p>
