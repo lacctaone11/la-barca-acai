@@ -12,7 +12,7 @@ $dominios = [
         'cep' => '89201-230',
         'telefone' => '(47) 98117-8064',
         'telefone_link' => '5547981178064',
-        'email' => 'proconta@netiville.com.br',
+        'email' => 'contato@seudireitobrasil.shop',
         'nome_fantasia' => 'Tropical Açaí'
     ],
 
@@ -27,7 +27,7 @@ $dominios = [
         'cep' => '97541-000',
         'telefone' => '(55) 98117-8024',
         'telefone_link' => '5555981178024',
-        'email' => 'team948@silvercoastlivingpt.com',
+        'email' => 'contato@tropicalacai.seuguiaonline.sbs',
         'nome_fantasia' => 'Tropical Açaí'
     ],
 
@@ -42,7 +42,7 @@ $dominios = [
         'cep' => '95070-560',
         'telefone' => '(54) 98117-8024',
         'telefone_link' => '5554981178024',
-        'email' => 'team949@agencebcbg.com',
+        'email' => 'contato@seuacessobr.sbs',
         'nome_fantasia' => 'Tropical Açaí'
     ],
 
