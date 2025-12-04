@@ -4,8 +4,13 @@ if (!isset($empresa)) {
     include_once __DIR__ . '/config_empresa.php';
 }
 ?>
-<!-- Footer -->
-<footer style="background: linear-gradient(135deg, #5b2e91 0%, #3d1f5c 100%); color: #fff; padding: 30px 15px 20px; margin-top: 40px; border-top: 4px solid #7c3aed;">
+<!-- Footer - Oculto no mobile -->
+<style>
+@media (max-width: 768px) {
+    .site-footer { display: none !important; }
+}
+</style>
+<footer class="site-footer" style="background: linear-gradient(135deg, #5b2e91 0%, #3d1f5c 100%); color: #fff; padding: 30px 15px 20px; margin-top: 40px; border-top: 4px solid #7c3aed;">
     <div style="max-width: 500px; margin: 0 auto; text-align: center;">
 
         <!-- Logo -->
