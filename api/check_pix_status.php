@@ -1,9 +1,8 @@
 <?php
 
-// Black Cat Pagamentos API
-define('BLACKCAT_API_URL', 'https://api.blackcatpagamentos.com/v1/transactions');
-define('BLACKCAT_PUBLIC_KEY', 'pk_jnbuj9JZy7pQJTdfahRmVpziMgQAIKNCMCDstmQ4pJthriVP');
-define('BLACKCAT_SECRET_KEY', 'sk_8vY_tuYwmV8q8hL37uafgrYL-Gyeef3WC5SLwhnp53dEko55');
+// Titans Hub API
+define('TITANS_API_URL', 'https://api.titanshub.io/v1/transactions');
+define('TITANS_SECRET_KEY', 'sk_uveRUOH7x4mxQMLJSOD-sh_igT5N9PSrzjmW0Q8qYb2CejuK');
 
 header('Content-Type: application/json');
 
@@ -14,9 +13,10 @@ if (!$transactionId) {
     exit;
 }
 
-$auth = base64_encode(BLACKCAT_PUBLIC_KEY . ':' . BLACKCAT_SECRET_KEY);
+// Autenticação Titans Hub
+$auth = base64_encode(':' . TITANS_SECRET_KEY);
 
-$ch = curl_init(BLACKCAT_API_URL . '/' . $transactionId);
+$ch = curl_init(TITANS_API_URL . '/' . $transactionId);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => [
@@ -40,18 +40,15 @@ if ($error) {
 
 $responseData = json_decode($response, true);
 
-error_log('=== CHECK PIX STATUS ===');
+error_log('=== TITANS CHECK PIX STATUS ===');
 error_log('Transaction ID: ' . $transactionId);
 error_log('HTTP Code: ' . $httpCode);
 error_log('Response: ' . substr($response, 0, 500));
 
-
 $transaction = null;
 if (isset($responseData['data']) && is_array($responseData['data'])) {
-
     $transaction = $responseData['data'];
 } elseif (isset($responseData['id']) && isset($responseData['paymentMethod'])) {
-
     $transaction = $responseData;
 }
 
@@ -59,7 +56,7 @@ if ($httpCode === 200 && $transaction !== null) {
     $status = $transaction['status'] ?? 'unknown';
 
     error_log('Transaction Status: ' . $status);
-    
+
     echo json_encode([
         'success' => true,
         'status' => $status,
@@ -71,9 +68,9 @@ if ($httpCode === 200 && $transaction !== null) {
     if (isset($responseData['message'])) {
         $errorMessage = $responseData['message'];
     }
-    
+
     error_log('Erro ao consultar transação: ' . $errorMessage);
-    
+
     echo json_encode([
         'success' => false,
         'error' => $errorMessage,
@@ -81,4 +78,3 @@ if ($httpCode === 200 && $transaction !== null) {
         'response' => $responseData
     ]);
 }
-

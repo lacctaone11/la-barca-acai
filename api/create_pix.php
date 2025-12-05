@@ -3,10 +3,9 @@ require_once __DIR__ . '/../item/cart_helpers.php';
 
 header('Content-Type: application/json');
 
-// Black Cat Pagamentos API
-define('BLACKCAT_API_URL', 'https://api.blackcatpagamentos.com/v1/transactions');
-define('BLACKCAT_PUBLIC_KEY', 'pk_jnbuj9JZy7pQJTdfahRmVpziMgQAIKNCMCDstmQ4pJthriVP');
-define('BLACKCAT_SECRET_KEY', 'sk_8vY_tuYwmV8q8hL37uafgrYL-Gyeef3WC5SLwhnp53dEko55');
+// Titans Hub API
+define('TITANS_API_URL', 'https://api.titanshub.io/v1/transactions');
+define('TITANS_SECRET_KEY', 'sk_uveRUOH7x4mxQMLJSOD-sh_igT5N9PSrzjmW0Q8qYb2CejuK');
 
 // Função para gerar CPF válido
 function gerarCpf() {
@@ -77,7 +76,7 @@ if ($amountInCents <= 0) {
     exit;
 }
 
-// Montar items
+// Montar items para Titans Hub
 $items = [];
 foreach ($cart as $item) {
     $preco = floatval($item['preco_promocional'] ?? $item['preco'] ?? 0);
@@ -104,30 +103,33 @@ if (empty($items)) {
     ];
 }
 
-// Preparar payload simplificado (similar ao modelo Titans)
+// Preparar payload para Titans Hub
 $payload = [
     'paymentMethod' => 'pix',
-    'items' => $items,
     'amount' => $amountInCents,
-    'installments' => '1',
+    'items' => $items,
     'customer' => [
+        'name' => $nome,
+        'email' => $email,
+        'phone' => $telefoneLimpo,
         'document' => [
             'type' => 'cpf',
             'number' => $cpf
-        ],
-        'name' => $nome,
-        'email' => $email,
-        'phone' => $telefoneLimpo
+        ]
+    ],
+    'pix' => [
+        'expiresInDays' => 1
     ]
 ];
 
-// Autenticação BlackCat (public_key:secret_key)
-$auth_value = base64_encode(BLACKCAT_PUBLIC_KEY . ':' . BLACKCAT_SECRET_KEY);
+// Autenticação Titans Hub (Basic Auth com secret_key)
+// Formato: Basic base64(public_key:secret_key) ou apenas secret_key como password
+$auth_value = base64_encode(':' . TITANS_SECRET_KEY);
 
 // Fazer requisição
 $curl = curl_init();
 curl_setopt_array($curl, [
-    CURLOPT_URL => BLACKCAT_API_URL,
+    CURLOPT_URL => TITANS_API_URL,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -142,7 +144,7 @@ curl_setopt_array($curl, [
     ],
 ]);
 
-error_log('=== PIX PAYLOAD ===');
+error_log('=== TITANS PIX PAYLOAD ===');
 error_log(json_encode($payload, JSON_PRETTY_PRINT));
 
 $response = curl_exec($curl);
@@ -150,8 +152,8 @@ $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 $error = curl_error($curl);
 curl_close($curl);
 
-error_log('PIX Response HTTP: ' . $httpCode);
-error_log('PIX Response: ' . substr($response, 0, 500));
+error_log('TITANS PIX Response HTTP: ' . $httpCode);
+error_log('TITANS PIX Response: ' . substr($response, 0, 1000));
 
 if ($error) {
     echo json_encode(['success' => false, 'error' => 'Erro na requisição: ' . $error]);
@@ -170,7 +172,7 @@ if ($responseData === null) {
     exit;
 }
 
-// Verificar se tem QR Code na resposta
+// Verificar se tem QR Code na resposta (Titans retorna direto no objeto)
 $transaction = null;
 if (isset($responseData['data']) && is_array($responseData['data'])) {
     $transaction = $responseData['data'];
@@ -190,7 +192,7 @@ if ($transaction && isset($transaction['pix']['qrcode'])) {
         'secureUrl' => $transaction['secureUrl'] ?? '',
         'expirationDate' => $transaction['pix']['expirationDate'] ?? '',
         'amount' => $transaction['amount'] / 100,
-        'status' => $transaction['status'] ?? 'waiting_payment'
+        'status' => $transaction['status'] ?? 'pending'
     ]);
 } else {
     $errorMessage = 'Erro ao criar transação PIX';
