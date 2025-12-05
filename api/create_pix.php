@@ -1,8 +1,20 @@
 <?php
-session_start();
-require_once __DIR__ . '/../item/cart_helpers.php';
+// Capturar erros
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
+// Headers primeiro
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Handle preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // Titans Hub API
 define('TITANS_API_URL', 'https://api.titanshub.io/v1/transactions');
@@ -10,229 +22,160 @@ define('TITANS_PUBLIC_KEY', 'pk_zPl4SZSQDQs2VFNXXhSR7yVzoT9sBh4mkPquAcZjqriQczsX
 define('TITANS_SECRET_KEY', 'sk_uveRUOH7x4mxQMLJSOD-sh_igT5N9PSrzjmW0Q8qYb2CejuK');
 
 // Função para gerar CPF válido
-function gerarCpf() {
-    $cpf = '';
+function gerarCpfValido() {
+    $n = [];
     for ($i = 0; $i < 9; $i++) {
-        $cpf .= rand(0, 9);
+        $n[$i] = rand(0, 9);
     }
-    $soma1 = 0;
+
+    $d1 = 0;
     for ($i = 0; $i < 9; $i++) {
-        $soma1 += $cpf[$i] * (10 - $i);
+        $d1 += $n[$i] * (10 - $i);
     }
-    $resto1 = $soma1 % 11;
-    $digito1 = ($resto1 < 2) ? 0 : 11 - $resto1;
-    $soma2 = 0;
-    for ($i = 0; $i < 9; $i++) {
-        $soma2 += $cpf[$i] * (11 - $i);
+    $d1 = 11 - ($d1 % 11);
+    if ($d1 >= 10) $d1 = 0;
+    $n[9] = $d1;
+
+    $d2 = 0;
+    for ($i = 0; $i < 10; $i++) {
+        $d2 += $n[$i] * (11 - $i);
     }
-    $soma2 += $digito1 * 2;
-    $resto2 = $soma2 % 11;
-    $digito2 = ($resto2 < 2) ? 0 : 11 - $resto2;
-    $cpf .= $digito1 . $digito2;
-    return $cpf;
+    $d2 = 11 - ($d2 % 11);
+    if ($d2 >= 10) $d2 = 0;
+    $n[10] = $d2;
+
+    return implode('', $n);
 }
 
-$input = file_get_contents('php://input');
-$dados = json_decode($input, true);
+try {
+    $input = file_get_contents('php://input');
+    $dados = json_decode($input, true);
 
-if (!$dados) {
-    echo json_encode(['success' => false, 'error' => 'Dados não fornecidos']);
-    exit;
-}
+    if (!$dados) {
+        echo json_encode(['success' => false, 'error' => 'Dados não fornecidos']);
+        exit;
+    }
 
-$dadosPessoais = $dados['dadosPessoais'] ?? $dados;
-$dadosFrete = $dados['dadosFrete'] ?? [];
-$amount = floatval($dados['amount'] ?? 0);
+    $dadosPessoais = $dados['dadosPessoais'] ?? $dados;
+    $amount = floatval($dados['amount'] ?? 0);
 
-// Pegar nome ou usar padrão
-$nome = $dadosPessoais['nome'] ?? 'Cliente';
-if (empty(trim($nome))) {
-    $nome = 'Cliente';
-}
+    // Pegar nome ou usar padrão
+    $nome = trim($dadosPessoais['nome'] ?? 'Cliente');
+    if (empty($nome)) {
+        $nome = 'Cliente';
+    }
 
-// Pegar telefone ou usar padrão
-$telefone = $dadosPessoais['telefone'] ?? $dadosPessoais['celular'] ?? $dadosPessoais['phone'] ?? '';
-$telefoneLimpo = preg_replace('/\D/', '', $telefone);
-if (empty($telefoneLimpo) || strlen($telefoneLimpo) < 10) {
-    $telefoneLimpo = '11999999999'; // Telefone padrão
-}
+    // Pegar telefone ou usar padrão
+    $telefone = $dadosPessoais['telefone'] ?? $dadosPessoais['celular'] ?? '';
+    $telefoneLimpo = preg_replace('/\D/', '', $telefone);
+    if (strlen($telefoneLimpo) < 10) {
+        $telefoneLimpo = '11999999999';
+    }
 
-// Gerar CPF válido
-$cpf = gerarCpf();
+    // Gerar CPF válido
+    $cpf = gerarCpfValido();
+    $email = $cpf . '@cliente.com';
 
-// Gerar email baseado no CPF
-$email = $cpf . '@cliente.com';
+    // Verificar amount
+    if ($amount <= 0) {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Valor inválido',
+            'amount_received' => $amount
+        ]);
+        exit;
+    }
 
-// Calcular valor
-$cart = acai_get_cart();
-$totalCarrinho = acai_cart_total($cart);
+    $amountInCents = intval($amount * 100);
 
-error_log('=== CREATE PIX DEBUG ===');
-error_log('Amount from request: ' . $amount);
-error_log('Cart total: ' . $totalCarrinho);
-error_log('Cart items: ' . count($cart));
-
-if ($amount == 0) {
-    $amount = $totalCarrinho;
-}
-
-// Se ainda for 0, tentar pegar do localStorage via dados
-if ($amount == 0 && isset($dados['totalCarrinho'])) {
-    $amount = floatval($dados['totalCarrinho']);
-}
-
-$amountInCents = intval($amount * 100);
-
-error_log('Final amount in cents: ' . $amountInCents);
-
-if ($amountInCents <= 0) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Valor inválido',
-        'debug' => [
-            'amount_request' => $dados['amount'] ?? 0,
-            'cart_total' => $totalCarrinho,
-            'cart_count' => count($cart)
-        ]
-    ]);
-    exit;
-}
-
-// Montar items para Titans Hub
-$items = [];
-foreach ($cart as $item) {
-    $preco = floatval($item['preco_promocional'] ?? $item['preco'] ?? 0);
-    $quantidade = intval($item['qtd'] ?? 1);
-
-    if ($preco > 0 && $quantidade > 0) {
-        $items[] = [
-            'title' => $item['title'] ?? 'Produto',
-            'quantity' => $quantidade,
-            'unitPrice' => intval($preco * 100),
+    // Preparar payload para Titans Hub
+    $payload = [
+        'paymentMethod' => 'pix',
+        'amount' => $amountInCents,
+        'items' => [[
+            'title' => 'Pedido Tropical Açaí',
+            'quantity' => 1,
+            'unitPrice' => $amountInCents,
             'tangible' => false,
-            'externalRef' => 'item-' . ($item['id'] ?? uniqid())
-        ];
-    }
-}
-
-if (empty($items)) {
-    $items[] = [
-        'title' => 'Pedido Tropical Açaí',
-        'quantity' => 1,
-        'unitPrice' => $amountInCents,
-        'tangible' => false,
-        'externalRef' => 'pedido-' . time()
-    ];
-}
-
-// Preparar payload para Titans Hub
-$payload = [
-    'paymentMethod' => 'pix',
-    'amount' => $amountInCents,
-    'items' => $items,
-    'customer' => [
-        'name' => $nome,
-        'email' => $email,
-        'phone' => $telefoneLimpo,
-        'document' => [
-            'type' => 'cpf',
-            'number' => $cpf
+            'externalRef' => 'pedido-' . time()
+        ]],
+        'customer' => [
+            'name' => $nome,
+            'email' => $email,
+            'phone' => $telefoneLimpo,
+            'document' => [
+                'type' => 'cpf',
+                'number' => $cpf
+            ]
+        ],
+        'pix' => [
+            'expiresInDays' => 1
         ]
-    ],
-    'pix' => [
-        'expiresInDays' => 1
-    ]
-];
+    ];
 
-// Autenticação Titans Hub (Basic Auth: public_key:secret_key)
-$auth_value = base64_encode(TITANS_PUBLIC_KEY . ':' . TITANS_SECRET_KEY);
+    // Autenticação Titans Hub
+    $auth_value = base64_encode(TITANS_PUBLIC_KEY . ':' . TITANS_SECRET_KEY);
 
-// Fazer requisição
-$curl = curl_init();
-curl_setopt_array($curl, [
-    CURLOPT_URL => TITANS_API_URL,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => json_encode($payload),
-    CURLOPT_HTTPHEADER => [
-        'accept: application/json',
-        'Authorization: Basic ' . $auth_value,
-        'content-type: application/json'
-    ],
-]);
-
-error_log('=== TITANS PIX PAYLOAD ===');
-error_log(json_encode($payload, JSON_PRETTY_PRINT));
-
-$response = curl_exec($curl);
-$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-$error = curl_error($curl);
-curl_close($curl);
-
-error_log('TITANS PIX Response HTTP: ' . $httpCode);
-error_log('TITANS PIX Response: ' . substr($response, 0, 1000));
-
-if ($error) {
-    echo json_encode(['success' => false, 'error' => 'Erro na requisição: ' . $error]);
-    exit;
-}
-
-$responseData = json_decode($response, true);
-
-if ($responseData === null) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Resposta inválida da API',
-        'httpCode' => $httpCode,
-        'response' => substr($response, 0, 500)
+    // Fazer requisição
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => TITANS_API_URL,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_HTTPHEADER => [
+            'Accept: application/json',
+            'Authorization: Basic ' . $auth_value,
+            'Content-Type: application/json'
+        ],
     ]);
-    exit;
-}
 
-// Verificar se tem QR Code na resposta (Titans retorna direto no objeto)
-$transaction = null;
-if (isset($responseData['data']) && is_array($responseData['data'])) {
-    $transaction = $responseData['data'];
-} elseif (isset($responseData['id'])) {
-    $transaction = $responseData;
-}
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($curl);
+    curl_close($curl);
 
-if ($transaction && isset($transaction['pix']['qrcode'])) {
-    $_SESSION['pix_transaction_id'] = $transaction['id'];
-    $_SESSION['pix_transaction_data'] = $transaction;
-
-    echo json_encode([
-        'success' => true,
-        'transactionId' => $transaction['id'],
-        'qrcode' => $transaction['pix']['qrcode'],
-        'secureId' => $transaction['secureId'] ?? '',
-        'secureUrl' => $transaction['secureUrl'] ?? '',
-        'expirationDate' => $transaction['pix']['expirationDate'] ?? '',
-        'amount' => $transaction['amount'] / 100,
-        'status' => $transaction['status'] ?? 'pending'
-    ]);
-} else {
-    $errorMessage = 'Erro ao criar transação PIX';
-
-    if (isset($responseData['message'])) {
-        $errorMessage = $responseData['message'];
-    } elseif (isset($responseData['error'])) {
-        if (is_string($responseData['error'])) {
-            $errorMessage = $responseData['error'];
-        } elseif (is_array($responseData['error']) && isset($responseData['error']['description'])) {
-            $errorMessage = $responseData['error']['description'];
-        }
+    if ($curlError) {
+        echo json_encode(['success' => false, 'error' => 'Erro cURL: ' . $curlError]);
+        exit;
     }
 
+    $responseData = json_decode($response, true);
+
+    if ($responseData === null) {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Resposta inválida da API',
+            'httpCode' => $httpCode,
+            'raw' => substr($response, 0, 300)
+        ]);
+        exit;
+    }
+
+    // Verificar sucesso
+    if (isset($responseData['pix']['qrcode'])) {
+        echo json_encode([
+            'success' => true,
+            'transactionId' => $responseData['id'],
+            'qrcode' => $responseData['pix']['qrcode'],
+            'expirationDate' => $responseData['pix']['expirationDate'] ?? '',
+            'amount' => $responseData['amount'] / 100,
+            'status' => $responseData['status'] ?? 'pending'
+        ]);
+    } else {
+        $errorMsg = $responseData['message'] ?? $responseData['error'] ?? 'Erro desconhecido';
+        echo json_encode([
+            'success' => false,
+            'error' => $errorMsg,
+            'httpCode' => $httpCode,
+            'details' => $responseData
+        ]);
+    }
+
+} catch (Exception $e) {
     echo json_encode([
         'success' => false,
-        'error' => $errorMessage,
-        'httpCode' => $httpCode,
-        'response' => $response,
-        'details' => $responseData
+        'error' => 'Exceção: ' . $e->getMessage()
     ]);
 }
