@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../item/cart_helpers.php';
 
 header('Content-Type: application/json');
@@ -66,14 +67,34 @@ $email = $cpf . '@cliente.com';
 $cart = acai_get_cart();
 $totalCarrinho = acai_cart_total($cart);
 
+error_log('=== CREATE PIX DEBUG ===');
+error_log('Amount from request: ' . $amount);
+error_log('Cart total: ' . $totalCarrinho);
+error_log('Cart items: ' . count($cart));
+
 if ($amount == 0) {
     $amount = $totalCarrinho;
 }
 
+// Se ainda for 0, tentar pegar do localStorage via dados
+if ($amount == 0 && isset($dados['totalCarrinho'])) {
+    $amount = floatval($dados['totalCarrinho']);
+}
+
 $amountInCents = intval($amount * 100);
 
+error_log('Final amount in cents: ' . $amountInCents);
+
 if ($amountInCents <= 0) {
-    echo json_encode(['success' => false, 'error' => 'Valor inválido']);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Valor inválido',
+        'debug' => [
+            'amount_request' => $dados['amount'] ?? 0,
+            'cart_total' => $totalCarrinho,
+            'cart_count' => count($cart)
+        ]
+    ]);
     exit;
 }
 
